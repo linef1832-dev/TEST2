@@ -252,10 +252,7 @@ function saveMessages() {
 }
 function renderPreview() {
   fetch('/api/config', {headers: {'x-admin-pin': PIN}}).then(function(r) { return r.json(); }).then(function(c) {
-    var p = c.welcome_message.replace('{name}', 'คุณ') + '
-
---- เมนูหลัก ---
-';
+    var p = c.welcome_message.replace('{name}', 'คุณ') + '\n\n--- เมนูหลัก ---\n';
     c.menus.forEach(function(m) { p += '[' + m.label + ']
 '; });
     document.getElementById('previewBox').textContent = p;
