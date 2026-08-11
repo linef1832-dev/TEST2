@@ -254,11 +254,12 @@ function renderMenuList(menus){
     var dn=i<menus.length-1?'<button class="btn-warning" style="padding:5px 10px" onclick="moveMenu('+i+',1)">↓</button>':'';
     html+='<div class="menu-item"><div class="menu-item-header"><div><span class="menu-label">'+m.label+'</span> <span class="menu-id">['+m.id+']</span></div>';
     html+='<div>'+up+dn+'<button class="btn-primary" style="padding:5px 10px" onclick="openEditModal('+i+')">แก้ไข</button>';
-    html+='<button class="btn-danger" style="padding:5px 10px" onclick="deleteMenu(\''+m.id+'\')">ลบ</button></div></div>';
-    html+='<div class="menu-preview">'+m.content.replace(/\*/g,'').substring(0,120)+'...</div></div>';
+    html+='<button class="btn-danger" style="padding:5px 10px" data-id="'+m.id+'" onclick="deleteMenu(this.dataset.id)">ลบ</button></div></div>';
+    html+='<div class="menu-preview">'+m.content.replace(/[*]/g,'').substring(0,120)+'...</div></div>';
   }
   el.innerHTML=html;
 }
+
 function openEditModal(idx){
   fetch('/api/config',{headers:{'x-admin-pin':PIN}}).then(function(r){return r.json();}).then(function(c){
     var m=c.menus[idx];
