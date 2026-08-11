@@ -253,23 +253,25 @@ function loadAll() {
 function renderMenuList(menus) {
     const el = document.getElementById('menuList');
     if (!menus.length) { el.innerHTML = '<p style="color:#aaa;">ยังไม่มีเมนู</p>'; return; }
-    el.innerHTML = menus.map((m, i) => `
-        <div class="menu-item">
-            <div class="menu-item-header">
-                <div>
-                    <span class="menu-label">${m.label}</span>
-                    <span class="menu-id"> &nbsp;[${m.id}]</span>
-                </div>
-                <div>
-                    ${i > 0 ? '<button class="btn-warning" style="padding:5px 10px;" onclick="moveMenu(' + i + ',-1)">↑</button>' : ''}
-                    ${i < menus.length-1 ? '<button class="btn-warning" style="padding:5px 10px;" onclick="moveMenu(' + i + ',1)">↓</button>' : ''}
-                    <button class="btn-primary" style="padding:5px 10px;" onclick="openEditModal(${i})">✏️ แก้ไข</button>
-                    <button class="btn-danger" style="padding:5px 10px;" onclick="deleteMenu('${m.id}')">🗑 ลบ</button>
-                </div>
-            </div>
-            <div class="menu-preview">${m.content.replace(/\*/g,'').substring(0,120)}...</div>
-        </div>
-    `).join('');
+    el.innerHTML = menus.map(function(m, i) {
+        var upBtn = i > 0 ? '<button class="btn-warning" style="padding:5px 10px;" onclick="moveMenu(' + i + ',-1)">↑</button>' : '';
+        var downBtn = i < menus.length-1 ? '<button class="btn-warning" style="padding:5px 10px;" onclick="moveMenu(' + i + ',1)">↓</button>' : '';
+        var preview = m.content.replace(/\*/g,'').substring(0,120);
+        return '<div class="menu-item">' +
+            '<div class="menu-item-header">' +
+                '<div>' +
+                    '<span class="menu-label">' + m.label + '</span>' +
+                    '<span class="menu-id"> &nbsp;[' + m.id + ']</span>' +
+                '</div>' +
+                '<div>' +
+                    upBtn + downBtn +
+                    '<button class="btn-primary" style="padding:5px 10px;" onclick="openEditModal(' + i + ')">✏️ แก้ไข</button>' +
+                    '<button class="btn-danger" style="padding:5px 10px;" onclick="deleteMenu(\'' + m.id + '\')">🗑 ลบ</button>' +
+                '</div>' +
+            '</div>' +
+            '<div class="menu-preview">' + preview + '...</div>' +
+        '</div>';
+    }).join('');
 }
 
 // ==================== Edit Modal ====================
